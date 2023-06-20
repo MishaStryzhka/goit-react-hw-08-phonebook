@@ -5,17 +5,17 @@ import { FadeLoader } from 'react-spinners';
 
 const FormPhonebook = ({ onSubmit, isLoadingPost }) => {
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("")
+    const [number, setNumber] = useState("")
 
     const handleSubmit = e => {
         e.preventDefault();
-        onSubmit({ name, phone });
+        onSubmit({ name, number });
         reset();
     }
 
     const reset = () => {
         setName("");
-        setPhone("");
+        setNumber("");
     };
 
     return (
@@ -41,8 +41,8 @@ const FormPhonebook = ({ onSubmit, isLoadingPost }) => {
                         pattern="^(\+?[0-9.\(\)\-\s]*)$"
                         title="Phone Phone must be digits and can contain spaces, dashes, parentheses and can start with +"
                         required
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}
                     />
                 </label>
                 <button className={css.button} type="submit">Add contact 

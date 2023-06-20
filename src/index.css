@@ -7,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f6f7f8;
+  background-color: #ffffff;
 
 }
 
@@ -19,10 +19,6 @@ code {
 p {
   margin: 0;
 }
-
-/* li {
-  list-style: none;
-} */
 
 ul {
   margin: 0;
