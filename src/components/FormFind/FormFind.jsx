@@ -1,25 +1,62 @@
+import { SearchIcon } from '@chakra-ui/icons';
+import {
+  FormControl,
+  IconButton,
+  Input,
+  InputGroup,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import css from "./FormFind.module.css"
+import { useState } from 'react';
 
 const FormFind = ({ value, handleChange }) => {
-    return <form className={css.form} >
-        <label className={css.label}>Find contacts by name</label>
-        <input
-            type="text"
-            name="filter"
-            pattern="^[A-Za-z\u0080-\uFFFF ']+$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            value={value}
-            onChange={handleChange}
+  const [showInput, setShowInput] = useState(value ? true : false);
+  const handleClick = e => {
+    setShowInput(!showInput);
+    handleChange("")
+  };
+
+  const handleChangeValue = e => {
+    handleChange(e.target.value)
+  }
+  return (
+    <FormControl w="320px">
+      <InputGroup ml={1}>
+        <IconButton
+          onClick={handleClick}
+          colorScheme="orange"
+          aria-label="Search database"
+          icon={<SearchIcon />}
         />
-    </form>
-}
+        {showInput && (
+          <Input
+          ml={1}
+            value={value}
+            autoComplete="false"
+            onChange={handleChangeValue}
+            bg="orange.100"
+            borderColor="orange.300"
+            sx={{
+              ':hover': {
+                borderColor: 'orange.500',
+              },
+              ':focus-visible': {
+                borderColor: 'orange.500',
+                borderWidth: '2px',
+                boxShadow: 'none',
+              },
+            }}
+            color="orange.900"
+            placeholder="Find contacts by name."
+          />
+        )}
+      </InputGroup>
+    </FormControl>
+  );
+};
 
 FormFind.propTypes = {
-    handleChange: PropTypes.func.isRequired,
-    value: PropTypes.string,
-
-}
+  handleChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+};
 
 export default FormFind;

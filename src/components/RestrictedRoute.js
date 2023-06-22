@@ -1,13 +1,9 @@
 import { useAuth } from 'hooks';
-import { Navigate } from 'react-router-dom';
-
-/**
- * - If the route is restricted and the user is logged in, render a <Navigate> to redirectTo
- * - Otherwise render the component
- */
+import { Navigate, useLocation } from 'react-router-dom';
 
 export const RestrictedRoute = ({ component: Component, redirectTo = '/' }) => {
   const { isLoggedIn } = useAuth();
+  const location = useLocation();
 
-  return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
+  return isLoggedIn ? <Navigate to={redirectTo} state={{ filter: location?.state?.filter}}/> : Component;
 };

@@ -1,1 +1,1 @@
-export { default } from './FormFind'
+export { default } from './FormFind';

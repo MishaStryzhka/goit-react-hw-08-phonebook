@@ -1,77 +1,111 @@
 import PropTypes from 'prop-types';
-import css from './FormContacts.module.css';
-import { useState } from 'react';
-import { FadeLoader } from 'react-spinners';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import {
+  Button,
+  Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
+import { PhoneIcon } from '@chakra-ui/icons';
 
-const FormPhonebook = ({ onSubmit, isLoadingPost }) => {
-    const [name, setName] = useState("");
-    const [number, setNumber] = useState("")
+const FormPhonebook = ({ onSubmit }) => {
+  const handleSubmit = (values, { resetForm }) => {
+    onSubmit(values);
+    resetForm();
+  };
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        onSubmit({ name, number });
-        reset();
-    }
+  return (
+    <>
+      <Heading as="h2" size="1xl" noOfLines={1}>
+        Add contact
+      </Heading>
 
-    const reset = () => {
-        setName("");
-        setNumber("");
-    };
-
-    return (
-        <>
-            <form className={css.form} onSubmit={handleSubmit} >
-                <label className={css.label}>
-                    <span className={css.labelText}>Name</span>
-                    <input
-                        type="text"
-                        name="name"
-                        pattern="^[A-Za-z\u0080-\uFFFF ']+$"
-                        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                        required
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </label>
-                <label className={css.label}>
-                    <span className={css.labelText}>Phone</span>
-                    <input
-                        type="tel"
-                        name="phone"
-                        pattern="^(\+?[0-9.\(\)\-\s]*)$"
-                        title="Phone Phone must be digits and can contain spaces, dashes, parentheses and can start with +"
-                        required
-                        value={number}
-                        onChange={e => setNumber(e.target.value)}
-                    />
-                </label>
-                <button className={css.button} type="submit">Add contact 
-                <FadeLoader
-                    loading={isLoadingPost}
-                    size={15}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                    height={7}
-                    margin={-10}
-                    radius={0}
-                    width={2}
-                    style={{
-                        top: 25,
-                        display: "inherit",
-                        position: "absolute",
-                        fontSize: 0,
-                        right: 30,
-                        width: 30,
-                        height: 30}}
-                />
-                </button>
-            </form>
-        </>
-    );
+      <Formik
+        initialValues={{
+          name: '',
+          number: '',
+        }}
+        validate={values => {
+          let errors = {};
+          if (!values.name) errors.name = 'Enter a name in the field ⬆️.';
+          if (!values.number) errors.number = 'Enter a number in the field ⬆️.';
+          return errors;
+        }}
+        onSubmit={handleSubmit}
+      >
+        {props => (
+          <Form>
+            <Field name="name">
+              {({ field }) => (
+                <InputGroup mt={5} minW="300px">
+                  <Input
+                    bg="orange.200"
+                    borderColor="orange.300"
+                    sx={{
+                      ':hover': {
+                        borderColor: 'orange.500',
+                      },
+                      ':focus-visible': {
+                        borderColor: 'orange.500',
+                        borderWidth: '2px',
+                        boxShadow: 'none',
+                      },
+                    }}
+                    color="orange.900"
+                    {...field}
+                    placeholder="name"
+                  />
+                </InputGroup>
+              )}
+            </Field>
+            <ErrorMessage name="name" />
+            <Field name="number">
+              {({ field }) => (
+                <InputGroup mt={5}>
+                  <InputLeftElement pointerEvents="none">
+                    <PhoneIcon color="gray.300" />
+                  </InputLeftElement>
+                  <Input
+                    bg="orange.200"
+                    borderColor="orange.300"
+                    sx={{
+                      ':hover': {
+                        borderColor: 'orange.500',
+                      },
+                      ':focus-visible': {
+                        borderColor: 'orange.500',
+                        borderWidth: '2px',
+                        boxShadow: 'none',
+                      },
+                    }}
+                    type="tel"
+                    {...field}
+                    placeholder="Phone number"
+                  />
+                </InputGroup>
+              )}
+            </Field>
+            <ErrorMessage name="number" />
+            <Button
+              mt={8}
+              mx="calc(50% - 40px)"
+              colorScheme="orange"
+              color="orange.200"
+              isLoading={props.isSubmitting}
+              type="submit"
+            >
+              Add
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </>
+  );
 };
 
 FormPhonebook.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-}
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default FormPhonebook;
