@@ -324,7 +324,7 @@ const Contact = ({ selectedContact, setSelectedContact }) => {
                         color="orange.900"
                         h="30px"
                         {...field}
-                        placeholder='"Email" Sorry! (under development)'
+                        placeholder='"Address" Sorry! (under development)'
                       />
                     </InputGroup>
                   )}
